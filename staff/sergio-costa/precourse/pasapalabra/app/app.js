@@ -37,79 +37,81 @@ var finishGame=false;
 var name;
 var arrName=[];
 
-function PedirNombre(){
-name=prompt('Nombre de Jugador:');
-arrName.push(name);
-console.log('Hola ' + name);
-ShowQuestion(0);
-}
+var intro = document.getElementById('intro');
+var introplay = document.getElementById('introplay');
+var questionHTML = document.getElementById('questionHTML');
+var answerHTML = document.getElementById('answer');
+var sendHMTL = document.getElementById('send');
+var items = document.getElementsByClassName("item");
 
+document.getElementById('sendHTML').addEventListener('click',()=>{
+    ShowAnswer()
+});
 
 function Pasapalabra(){
-questions.forEach(function (obj) {
+    intro.style.display='none';
+    introplay.style.display='block';
+    questions.forEach(function (obj) {
     obj.status=0;
-});
-pos=0;
-aciertos=0;
-falladas=0;
-PedirNombre();
+    });
+    pos=0;
+    aciertos=0;
+    falladas=0;
+    ShowQuestion();
 }
-Pasapalabra();
 
-
-function ShowQuestion(pos){
-if(aciertos + falladas !=questions.length){
-    if(pos<questions.length){
-        if(questions[pos].status==0){
-            console.log(questions[pos].question);
-            ShowAnswer(pos)
+function ShowQuestion(){
+    if(aciertos + falladas !=questions.length){
+        if(pos<questions.length){
+            if(questions[pos].status==0){
+                questionHTML.innerHTML=questions[pos].question;
+                items[pos].style.background='#2990eb';
+            }else{
+                pos+=1;
+                ShowQuestion();
+            }
         }else{
-            pos+=1;
-            ShowQuestion(pos);
+            pos=0;
+            ShowQuestion();
+         }
+    }else{
+        alert('GAME FINISHED ' + 'con ' + aciertos + ' acierto/s ' + 'y ' + falladas + ' fallo/s');
+        arrAciertos.push(aciertos);
+        if(confirm('Volver a jugar?')){
+            Pasapalabra();
+        }else{
+            console.log('Bye');
+            Ranking();
         }
-    }else{
-        ShowQuestion(0);
     }
-}else{
-    alert('GAME FINISHED ' + 'con ' + aciertos + ' acierto/s ' + 'y ' + falladas + ' fallo/s');
-    arrAciertos.push(aciertos);
-    if(confirm('Volver a jugar?')){
-        Pasapalabra();
-    }else{
-        console.log('Bye');
-        Ranking();
-    }
-}
 }
 
 
-function ShowAnswer(pos){
-    respuesta=prompt('Respuesta:');
+function ShowAnswer(){
+    respuesta=answerHTML.value; 
     if(respuesta==questions[pos].answer){
+        items[pos].style.background = '#4caf50';
         console.log('Correcto');
         questions[pos].status=1;
         pos+=1;
         aciertos+=1;
+        answerHTML.value="";
         ShowQuestion(pos);
     }else{
-        if(respuesta=='pasapalabra'){
-            console.log('Paso');
-            pos+=1;
-            ShowQuestion(pos);
-        }else{
-            console.log('Fallaste' + pos);
-            questions[pos].status=1;
-            pos+=1;
-            falladas+=1;
-            ShowQuestion(pos);
-        }  
+        items[pos].style.background = '#8e001c';
+        console.log('Fallaste' + pos);
+        questions[pos].status=1;
+        pos+=1;
+        falladas+=1;
+        answerHTML.value="";
+        ShowQuestion(pos);
     }
 }
 
-function Ranking(){
-    //arrAciertos=arrAciertos.sort();
-    console.log('Ranking: ')
-    for(var i = 0; i<arrAciertos.length;i++){
-        console.log(arrName[i] + ' con ' + arrAciertos[i] + ' acierto/s ');
-    }  
+function Paso(){
+    answerHTML.value="";
+    console.log('Paso');
+    pos+=1;
+    items[pos-1].style.background='#004b8d';
+    ShowQuestion(pos);
 }

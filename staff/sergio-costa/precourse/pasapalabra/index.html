@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pasapalabra</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Pasapalabra</h1>
+    </header>
+    <div id="container-letters">
+        <ul>
+            <li class="item">A</li>
+            <li class="item">B</li>
+            <li class="item">C</li>
+            <li class="item">D</li>
+            <li class="item">E</li>
+            <li class="item">F</li>
+            <li class="item">G</li>
+            <li class="item">H</li>
+            <li class="item">I</li>
+            <li class="item">J</li>
+            <li class="item">K</li>
+            <li class="item">L</li>
+            <li class="item">M</li>
+            <li class="item">N</li>
+            <li class="item">Ñ</li>
+            <li class="item">O</li>
+            <li class="item">P</li>
+            <li class="item">Q</li>
+            <li class="item">R</li>
+            <li class="item">S</li>
+            <li class="item">T</li>
+            <li class="item">U</li>
+            <li class="item">V</li>
+            <li class="item">W</li>
+            <li class="item">X</li>
+            <li class="item">Y</li>
+            <li class="item">Z</li>
+        </ul>
+    <div>
+        <ul>
+            <li id="timer">0</li>
+            <li id="score">0</li>
+        </ul>
+    </div>
+    </div>
+    <div id="intro">
+        <h4>Bienvenidos al juego de Pasapalabra de Skylab Coders Academy!</h4>
+        <p>Basado en el exitoso concurso de televisión Pasapalabra de Telecinco, las normas son muy sencillas:</p>
+		<p>Se mostraran unas definiciones por pantalla y el usuario deberá responder con la palabra a la que corresponden. El usuario tiene la opción de decir Pasapalabra y dejar esa definición para mas adelante.</p>
+        <p>El programa es sensible a las acentuación, asi que se debe introducir la palabra sin tilde. Es posible utilizar la tecla ENTER para enviar la palabra y el SPACE para hacer pasapalabra.</p>
+        <button class="btnplay btnplay1" onclick="Pasapalabra()">Jugar</button>
+    </div>
+    <div id="introplay">
+        <p id=questionHTML>questionssss here</p>
+        <input id="answer" type="text" placeholder="introduce tu respuesta">
+        <button class="but" id="sendHTML">Enviar</button>
+        <button class="but" id="pasapalabraHTML" onclick="Paso()">Pasapalabra</button>
+    </div>
+    
+
+
+    <script src="app/app.js"></script>
+</body>
+</html>
