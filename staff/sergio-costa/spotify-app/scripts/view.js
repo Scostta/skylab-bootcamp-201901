@@ -14,8 +14,7 @@ class Panel {
 
 class SearchPanel extends Panel {
     constructor() {
-        super($(`<section class="search container">
-        <h2>Search</h2>
+        super($(`<section class="header__search">
     <form>
         <input type="text" name="query" placeholder="Search an artist...">
         <button type="submit">Search</button>
@@ -39,17 +38,23 @@ class SearchPanel extends Panel {
 
 class ArtistsPanel extends Panel {
     constructor() {
-        super($(`<section class="results container">
+        super($(`<section class="results container-flex">
     <h3>Artists</h3>
-    <ul></ul>
+    <div class="container__artist">
+    </div>
 </section`))
 
-        this.__$list__ = this.$container.find('ul')
+        this.__$list__ = this.$container.find('div')
     }
 
     set artists(artists) {
-        artists.forEach(({ id, name }) => {
-            const $item = $(`<li data-id=${id}>${name}</li>`)
+        artists.forEach(({id, images, name}) => {
+            const image = images[0] ? images[0].url :'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
+
+            const $item = $(`<div data-id=${id} class="artist__each">
+            <img src=${image} class="artist__img bd-placeholder-img rounded-circle" width="100px">
+            <h4 class="artist__name">${name}</h4>
+            </div>`)
 
             this.__$list__.append($item)
 
@@ -69,7 +74,7 @@ class ArtistsPanel extends Panel {
 
 class AlbumPanel extends Panel {
     constructor() {
-        super($(`<section class="resultsAlbum container">
+        super($(`<section class="resultsAlbum container-fluid">
         <h3>Albums</h3>
         <ul></ul>
 </section>`))
@@ -116,6 +121,34 @@ class TracksPanel extends Panel{
             const $item = $(`<li data-id=${id}>${name}</li>`)
 
             this.__$list__.append($item)
+
+            $item.click(() => {
+                const id= $item.data('id')
+    
+                this.__onTrackSelected__(id)
+            })
         })
+
     }
+
+    set onTrackSelected(callback){
+        this.__onTrackSelected__ = callback
+    }
+}
+
+class UniqueTrackPanel extends Panel{
+    constructor(){
+        super($(`<section class="uniqueTrack container">
+        <h3>Track</h3>
+        </section>`))
+
+    }
+
+    set uniqueTrack({id, name, preview_url}){
+
+            const $item = $(`<h5  data-id = ${id} class="card-text">${name}</h5>
+        <audio src=${preview_url} controls> </audio>`)
+    
+            this.$container.append($item)
+     }
 }
