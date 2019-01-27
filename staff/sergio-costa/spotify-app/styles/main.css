@@ -193,11 +193,21 @@ html {
   height: 20px;
   transform: rotate(-90deg);
   margin-top: 0.5em;
+  transition-duration: 0.2s;
+}
+.welcomePanel__imgInfo:hover {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
 }
 
 .register {
   margin-top: 200px;
   color: white;
+}
+
+.error {
+  display: none;
 }
 
 /*# sourceMappingURL=main.css.map */

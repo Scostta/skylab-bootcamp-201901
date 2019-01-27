@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQAnJuREDLx0aj9RJNxMkv12xz7YsDVSl9F8JHFThn6-6yEkElBUkyn7Z-nG1TXu8qROgtfoSFg4nstmPALgvK6P5lXmIXVj0j6HHLPj4TIrhGZFOigebBe8ovvlFQFqdiNkTZUyb1XmcznK'
+spotifyApi.token = 'BQCrH-0d5al49pIHzz9h7k6UMcApvMe6pU_o70iyRKNDzMh7U3YkkE6u3INqpHWZm5LYCtxn91Wuu4kQhlxedMNDKEebwXl97UyLJYeugoGcNgxo7vNgh-l2NotilePXVZYBzPOiGQq1rnpX'
 
 const searchPanel = new SearchPanel
 const artistsPanel = new ArtistsPanel
@@ -8,6 +8,7 @@ const uniqueTrackPanel = new UniqueTrackPanel
 const loginPanel = new LoginPanel
 const welcomePanel = new WelcomePanel
 const registerPanel = new RegisterPanel
+const errorPanel = new ErrorPanel
 
 const $root = $('#root')
 const $header = $('header')
@@ -19,6 +20,7 @@ uniqueTrackPanel.hide()
 searchPanel.hide()
 welcomePanel.hide()
 registerPanel.hide()
+errorPanel.hide()
 
 $root.append(loginPanel.$container)
 $root.append(registerPanel.$container)
@@ -130,7 +132,7 @@ loginPanel.onLogin = function(email, password) {
             loginPanel.clear()
         })
     } catch(err) {
-        console.log(err)
+        loginPanel.error = err.message
     }
 }
 
@@ -150,7 +152,7 @@ registerPanel.onRegister = function(name, surname, email, password, passwordConf
             loginPanel.show();
         });
     } catch(err) {
-        console.log('error')
+        registerPanel.error = err.message
     }
 };
 

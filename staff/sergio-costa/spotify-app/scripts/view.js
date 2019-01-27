@@ -179,6 +179,7 @@ class UniqueTrackPanel extends Panel{
 
     clear(){
         this.$container.empty()
+        
     }
 }
 
@@ -212,6 +213,10 @@ class LoginPanel extends Panel {
         var $registerLink = $('<a href="#" class="login__register-link">Register</a>');
         this.$container.append($registerLink);
         this.__$registerLink__ = $registerLink;
+
+        var errorPanel = new ErrorPanel
+        this.$container.append(errorPanel.$container)
+        this.__errorPanel__ = errorPanel
     }
 
     set onLogin(callback) {
@@ -233,6 +238,8 @@ class LoginPanel extends Panel {
     clear() {
         this.__$emailInput__.val('');
         this.__$passwordInput__.val('');
+        this.__errorPanel__.message = ''
+        this.__errorPanel__.hide()
     }
 
     set onGoToRegister(callback) {
@@ -273,45 +280,45 @@ class WelcomePanel extends Panel{
 
 class RegisterPanel extends Panel{
     constructor(){
-        super($('<section class="register container">'
-        +'<h2 class="text-center mb-5">Register</h2>'
-        + '<form class="register__form">'
-        +'<div class=row>'
-        +'<div class="col mb-3">'   
-        + '<label font-weight-bold for="name">Name:</label>'
-        + '<input class="form-control" type="text" name="name" placeholder="name" required>'
-        +'</div>'
-        +'</div>'
-        +'</div>'
-        +'<div class=row>'
-        +'<div class="col mb-3">'
-        + '<label font-weight-bold for="surname">Surname:</label>'
-        + '<input class="form-control" type="text" name="surname" placeholder="surname" required>'
-        +'</div>'
-        +'</div>'
-        +'<div class=row>'
-        +'<div class="col mb-3">'
-        + '<label font-weight-bold for="email">E-mail:</label>'
-        + '<input class="form-control" type="email" name="email" placeholder="email" required>'
-        +'</div>'
-        +'</div>'
-        +'<div class=row>'
-        +'<div class="col mb-3">'
-        + '<label font-weight-bold for="password">Password:</label>'
-        + '<input class="form-control" type="password" name="password" placeholder="password" required>'
-        +'</div>'
-        +'</div>'
-        +'<div class=row>'
-        +'<div class="col mb-3">'
-        + '<label font-weight-bold for="password">Confirm Password:</label>'
-        + '<input class="form-control" type="password" name="password-confirmation" placeholder="password" required>'
-        +'</div>'
-        +'</div>'
-        +'<div class="col text-center">'
-        + '<button type="submit" class="btn btn-primary">Register</button>'
-        +'</div>'
-        + '</form>'
-        + '</section>'));
+        super($(`<section class="register container">
+        <h2 class="text-center mb-5">Register</h2>
+         <form class="register__form">
+        <div class=row>
+        <div class="col mb-3">   
+         <label font-weight-bold for="name">Name:</label>
+         <input class="form-control" type="text" name="name" placeholder="name" required>
+        </div>
+        </div>
+        </div>
+        <div class=row>
+        <div class="col mb-3">
+         <label font-weight-bold for="surname">Surname:</label>
+         <input class="form-control" type="text" name="surname" placeholder="surname" required>
+        </div>
+        </div>
+        <div class=row>
+        <div class="col mb-3">
+         <label font-weight-bold for="email">E-mail:</label>
+         <input class="form-control" type="email" name="email" placeholder="email" required>
+        </div>
+        </div>
+        <div class=row>
+        <div class="col mb-3">
+         <label font-weight-bold for="password">Password:</label>
+         <input class="form-control" type="password" name="password" placeholder="password" required>
+        </div>
+        </div>
+        <div class=row>
+        <div class="col mb-3">
+         <label font-weight-bold for="password">Confirm Password:</label>
+         <input class="form-control" type="password" name="password-confirmation" placeholder="password" required>
+        </div>
+        </div>
+        <div class="col text-center">
+         <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+         </form>
+         </section>`));
 
         this.__$form__ = this.$container.find('form');
 
@@ -327,6 +334,10 @@ class RegisterPanel extends Panel{
 
         this.__$loginLink__ = $('<a href="#" class="register__login-link">Login</a>');
         this.$container.append(this.__$loginLink__)
+
+        var errorPanel = new ErrorPanel
+        this.$container.append(errorPanel.$container)
+        this.__errorPanel__ = errorPanel
     }
 
  
@@ -344,15 +355,32 @@ class RegisterPanel extends Panel{
         });
     }
 
+    set error(message) {
+        this.__errorPanel__.message = message
+        this.__errorPanel__.show()
+    }
+
     clear() {
         this.__$nameInput__.val('');
         this.__$surnameInput__.val('');
         this.__$emailInput__.val('');
         this.__$passwordInput__.val('');
         this.__$passwordConfirmationInput__.val('');
+        this.__errorPanel__.message = ''
+        this.__errorPanel__.hide()
     }
 
     set onGoToLogin(callback) {
         this.__$loginLink__.on('click', callback);
+    }
+}
+
+class ErrorPanel extends Panel {
+    constructor() {
+        super($('<section class="error alert alert-danger" role="alert"></section>'))
+    }
+
+    set message(message) {
+        this.$container.text(message);
     }
 }
