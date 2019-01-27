@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQA-0GKWOyTcWtzW1cS_5gshHgAWrGcHN607PJqTLkOYzHqYUAIQuFDMmRhJR15uEaOr_0ZrAviL_2L1EmfC8iwHA2Fp_I72i364k_FWL8QmHHh2SmdivLwmj6Fsr2SaM1GjUVXE8zWIDBvO'
+spotifyApi.token = 'BQBHgTfFnlOXe9_N6SqOvnRzzCVzPQ9VZETZdKmY97xqEcOX5ePER21eUFh1eyubGcyKwvTu1Vg4nUTPI30_M2RyzZ6-QpWA3pPBhwp_tmC3745z6dWHoE4MA7uUXjY0PCEvqQQeg2foOIjJ'
 
 const searchPanel = new SearchPanel
 const artistsPanel = new ArtistsPanel
@@ -21,6 +21,15 @@ $root.append(tracksPanel.$container)
 $root.append(uniqueTrackPanel.$container)
 
 searchPanel.onSearch = function(query) {
+
+    artistsPanel.clear()
+    albumPanel.clear()
+    albumPanel.hide()
+    tracksPanel.clear()
+    tracksPanel.hide()
+    uniqueTrackPanel.clear()
+    uniqueTrackPanel.hide()
+
     try {
         logic.searchArtists(query, function(error, artists) {
             if (error) searchPanel.error = error.message
@@ -36,6 +45,9 @@ searchPanel.onSearch = function(query) {
 }
 
 artistsPanel.onArtistSelected = function(artistId){
+
+    albumPanel.clear()
+
     try {
         logic.retrieveAlbums(artistId, function(error, albums){
             if(error) console.log(error)
@@ -52,6 +64,12 @@ artistsPanel.onArtistSelected = function(artistId){
 }
 
 albumPanel.onAlbumSelected = function(albumId){
+
+    artistsPanel.clear()
+    albumPanel.clear()
+    artistsPanel.hide()
+    albumPanel.hide()
+
     try {
         logic.retrieveTracks(albumId, function(error, tracks){
             if(error) console.log(error)
@@ -70,10 +88,12 @@ albumPanel.onAlbumSelected = function(albumId){
 
 tracksPanel.onTrackSelected = function(trackId){
     try {
+
+        uniqueTrackPanel.clear()
+
         logic.retrieveUniqueTrack(trackId, function(error, uniqueTrack){
             if(error) console.log(error)
             else{
-                tracksPanel.hide()
 
                 uniqueTrackPanel.uniqueTrack = uniqueTrack
 

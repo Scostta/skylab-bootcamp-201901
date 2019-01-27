@@ -1,5 +1,33 @@
-main {
-  background-color: #1CD760;
+html {
+  background-color: black;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background-color: #232323;
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.header__text {
+  color: white;
+}
+.header__search {
+  display: flex;
+  align-items: center;
+}
+
+.search__bar {
+  border-radius: 10px;
+  background-color: white;
+  border: 0px solid;
+  padding: 5px;
 }
 
 .container__artist {
@@ -24,17 +52,66 @@ main {
   justify-self: center;
   align-self: center;
 }
-
-.header {
-  display: flex;
-  justify-content: space-between;
-}
-.header__search {
+.artist__img__search {
   align-self: center;
 }
 
 .d-block {
   height: 50em;
+}
+
+.container__album {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.album {
+  width: 30em;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 2em;
+}
+.album__title {
+  text-align: center;
+}
+.album__image {
+  align-self: center;
+}
+
+.track__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.track__item {
+  list-style-type: none;
+  padding: 1em;
+  border-top: 1px solid lightgrey;
+  width: 60em;
+  align-self: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resultTracks__title {
+  padding: 2em;
+}
+
+.uniqueTrack {
+  background-color: lightgrey;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 3em;
+}
+
+.uniqueTrack-text {
+  align-self: center;
 }
 
 /*# sourceMappingURL=main.css.map */

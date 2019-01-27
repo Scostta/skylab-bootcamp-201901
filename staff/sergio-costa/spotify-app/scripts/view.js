@@ -16,7 +16,7 @@ class SearchPanel extends Panel {
     constructor() {
         super($(`<section class="header__search">
     <form>
-        <input type="text" name="query" placeholder="Search an artist...">
+        <input class="search__bar" type="text" name="query" placeholder="Search an artist...">
         <button type="submit">Search</button>
     </form>
 </section>`))
@@ -33,7 +33,11 @@ class SearchPanel extends Panel {
 
             callback(query)
         })
-    } 
+    }
+
+    clear(){
+        this.__$query__.val('');
+    }
 }
 
 class ArtistsPanel extends Panel {
@@ -50,7 +54,7 @@ class ArtistsPanel extends Panel {
     set artists(artists) {
         artists.forEach(({id, images, name}) => {
             const image = images[0] ? images[0].url :'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
-
+            
             const $item = $(`<div data-id=${id} class="artist__each">
             <img src=${image} class="artist__img bd-placeholder-img rounded-circle" width="100px">
             <h4 class="artist__name">${name}</h4>
@@ -60,7 +64,7 @@ class ArtistsPanel extends Panel {
 
             $item.click(() =>{
                 const id= $item.data('id')
-
+ 
                 this.__onArtistSelected__(id)
             })
             this.__$list__.append($item)
@@ -70,23 +74,33 @@ class ArtistsPanel extends Panel {
     set onArtistSelected(callback){
         this.__onArtistSelected__=callback
     }
+
+    clear(){
+        this.__$list__.empty()
+    }
 }
 
 class AlbumPanel extends Panel {
     constructor() {
         super($(`<section class="resultsAlbum container-fluid">
         <h3>Albums</h3>
-        <ul></ul>
+        <div class="container__album">
+        </div>
 </section>`))
 
-        this.__$list__ = this.$container.find('ul')
+        this.__$list__ = this.$container.find('div')
     }
     set albums (albums){
         albums.forEach(({id, name, images}) =>{
 
             const image = images[0] ? images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
             
-            const $item =$(`<li data-id=${id}>${name}<img src=${image}></li>`)
+            const $item =$(`<div data-id=${id} class="album">
+            <img src=${image} class="album__image" width="400px">
+            <h4 class="album__title">${name}</h4>
+            <button class="album__button btn btn-primary">Go inside</button>
+            </div>
+            `)
 
             this.__$list__.append($item)
 
@@ -103,22 +117,26 @@ class AlbumPanel extends Panel {
         this.__onAlbumSelected__ = callback
     }
 
+    clear(){
+        this.__$list__.empty()
+    }
+
 }
 
 class TracksPanel extends Panel{
     constructor(){
-        super($(`<section class="resultTracks container">
-        <h3>Tracks</h3>
-        <ul></ul>
+        super($(`<section class="resultTracks container-fluid">
+        <h2 class="resultTracks__title">Tracks</h2>
+        <ul class="track__list"></ul>
 </section>`))
 
         this.__$list__ = this.$container.find('ul')
     }
 
     set tracks(tracks){
-        tracks.forEach(({id, name}) => {
+        tracks.forEach(({id, track_number,name}) => {
 
-            const $item = $(`<li data-id=${id}>${name}</li>`)
+            const $item = $(`<li class="track__item" data-id=${id}>${track_number} ${name}<img src="playbtn.png" width="40px" height="40px"></li>`)
 
             this.__$list__.append($item)
 
@@ -128,27 +146,33 @@ class TracksPanel extends Panel{
                 this.__onTrackSelected__(id)
             })
         })
-
     }
 
     set onTrackSelected(callback){
         this.__onTrackSelected__ = callback
     }
+
+    clear(){
+        this.__$list__.empty()
+    }
 }
 
 class UniqueTrackPanel extends Panel{
     constructor(){
-        super($(`<section class="uniqueTrack container">
-        <h3>Track</h3>
+        super($(`<section class="uniqueTrack">
         </section>`))
 
     }
 
     set uniqueTrack({id, name, preview_url}){
 
-            const $item = $(`<h5  data-id = ${id} class="card-text">${name}</h5>
-        <audio src=${preview_url} controls> </audio>`)
+            const $item = $(`<h5  data-id = ${id} class="uniqueTrack-text">${name}</h5>
+        <audio src=${preview_url} controls></audio>`)
     
             this.$container.append($item)
      }
+
+    clear(){
+        this.$container.empty()
+    }
 }
