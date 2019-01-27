@@ -42,7 +42,7 @@ class SearchPanel extends Panel {
 
 class ArtistsPanel extends Panel {
     constructor() {
-        super($(`<section class="results container-flex">
+        super($(`<section class="results">
     <h3>Artists</h3>
     <div class="container__artist">
     </div>
@@ -64,7 +64,7 @@ class ArtistsPanel extends Panel {
 
             $item.click(() =>{
                 const id= $item.data('id')
- 
+
                 this.__onArtistSelected__(id)
             })
             this.__$list__.append($item)
@@ -82,8 +82,7 @@ class ArtistsPanel extends Panel {
 
 class AlbumPanel extends Panel {
     constructor() {
-        super($(`<section class="resultsAlbum container-fluid">
-        <h3>Albums</h3>
+        super($(`<section class="resultsAlbum">
         <div class="container__album">
         </div>
 </section>`))
@@ -96,15 +95,14 @@ class AlbumPanel extends Panel {
             const image = images[0] ? images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
             
             const $item =$(`<div data-id=${id} class="album">
-            <img src=${image} class="album__image" width="400px">
+            <img src=${image} class="album__image">
             <h4 class="album__title">${name}</h4>
-            <button class="album__button btn btn-primary">Go inside</button>
+            <button class="album__button"><strong>Go To Album</strong></button>
             </div>
             `)
 
             this.__$list__.append($item)
-
-        
+            
             $item.click(() => {
                 const id= $item.data('id')
 
@@ -125,12 +123,15 @@ class AlbumPanel extends Panel {
 
 class TracksPanel extends Panel{
     constructor(){
-        super($(`<section class="resultTracks container-fluid">
-        <h2 class="resultTracks__title">Tracks</h2>
+        super($(`<section class="resultTracks">
+        <h2>Tracks</h2>
+        <img  class="tracks__button" src="back.png">
         <ul class="track__list"></ul>
 </section>`))
 
         this.__$list__ = this.$container.find('ul')
+
+        this.__$btnBack__=this.$container.find('img')
     }
 
     set tracks(tracks){
@@ -155,6 +156,10 @@ class TracksPanel extends Panel{
     clear(){
         this.__$list__.empty()
     }
+
+    set onGoBack(callback) {
+        this.__$btnBack__.click(callback)
+    }
 }
 
 class UniqueTrackPanel extends Panel{
@@ -174,5 +179,65 @@ class UniqueTrackPanel extends Panel{
 
     clear(){
         this.$container.empty()
+    }
+}
+
+class LoginPanel extends Panel {
+    constructor() {
+        super($(`<section class="login container">
+    <h2>Login</h2>
+    <form class="login__form" >
+        <div class="row">
+            <div class="col text-center">
+                <label for="email">E-mail:</label>
+                <input type="email" name="email" placeholder="email" required>
+            </div>
+            <div class="col">
+                <label for="password">Password:</label>
+                <input type="password" name="password" placeholder="password" required>
+            </div>
+            <div class="col">
+                <button type="submit">Login</button>
+            </div>
+            </div>
+    </form>
+</section>`));
+
+        this.__$form__ = this.$container.find('form');
+
+        this.__$emailInput__ = this.__$form__.find('input[type=email]');
+
+        this.__$passwordInput__ = this.__$form__.find('input[type=password]');
+
+        var $registerLink = $('<a href="#" class="login__register-link">Register</a>');
+        this.$container.append($registerLink);
+        this.__$registerLink__ = $registerLink;
+    }
+
+    set onLogin(callback) {
+        this.__$form__.on('submit', event => {
+            event.preventDefault();
+
+            var email = this.__$emailInput__.val();
+            var password = this.__$passwordInput__.val();
+
+            callback(email, password);
+        });
+    }
+
+    set error(message) {
+        this.__errorPanel__.message = message;
+        this.__errorPanel__.show();
+    }
+
+    clear() {
+        this.__$emailInput__.val('');
+        this.__$passwordInput__.val('');
+        this.__errorPanel__.message = '';
+        this.__errorPanel__.hide();
+    }
+
+    set onGoToRegister(callback) {
+        this.__$registerLink__.on('click', callback);
     }
 }

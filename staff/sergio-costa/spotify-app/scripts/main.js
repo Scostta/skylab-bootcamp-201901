@@ -1,10 +1,11 @@
-spotifyApi.token = 'BQBHgTfFnlOXe9_N6SqOvnRzzCVzPQ9VZETZdKmY97xqEcOX5ePER21eUFh1eyubGcyKwvTu1Vg4nUTPI30_M2RyzZ6-QpWA3pPBhwp_tmC3745z6dWHoE4MA7uUXjY0PCEvqQQeg2foOIjJ'
+spotifyApi.token = 'BQB0c-_SOHP4E9yHdv35Ib2jz7y-4eOnlmpu0BtAkJIjptWLA3J0H-L1DZFi4aguvWMG39ASWckxUxOfUlnRrSme3tSlbApiQRpf3OmZAJYDjQSGw6vZQhlCbKsrgxWpEFq4yRW5RAKVZC7S'
 
 const searchPanel = new SearchPanel
 const artistsPanel = new ArtistsPanel
 const albumPanel = new AlbumPanel
 const tracksPanel = new TracksPanel
 const uniqueTrackPanel = new UniqueTrackPanel
+const loginPanel = new LoginPanel
 
 const $root = $('#root')
 const $header = $('header')
@@ -13,7 +14,9 @@ artistsPanel.hide()
 albumPanel.hide()
 tracksPanel.hide()
 uniqueTrackPanel.hide()
+searchPanel.hide()
 
+$root.append(loginPanel.$container)
 $header.append(searchPanel.$container)
 $root.append(artistsPanel.$container)
 $root.append(albumPanel.$container)
@@ -27,8 +30,6 @@ searchPanel.onSearch = function(query) {
     albumPanel.hide()
     tracksPanel.clear()
     tracksPanel.hide()
-    uniqueTrackPanel.clear()
-    uniqueTrackPanel.hide()
 
     try {
         logic.searchArtists(query, function(error, artists) {
@@ -65,10 +66,9 @@ artistsPanel.onArtistSelected = function(artistId){
 
 albumPanel.onAlbumSelected = function(albumId){
 
-    artistsPanel.clear()
-    albumPanel.clear()
     artistsPanel.hide()
     albumPanel.hide()
+    searchPanel.clear()
 
     try {
         logic.retrieveTracks(albumId, function(error, tracks){
@@ -105,6 +105,24 @@ tracksPanel.onTrackSelected = function(trackId){
     }
 }
 
+tracksPanel.onGoBack = function(){
+    tracksPanel.clear()
+    tracksPanel.hide()
+    albumPanel.show()
+    artistsPanel.show()
+}
 
+loginPanel.onLogin = function (email, password){
+    try {
+        logic.login(email, password, function(){
+            loginPanel.hide()
+            loginPanel.clear()
+
+            searchPanel.show()
+        })
+    } catch (err) {
+        
+    }
+}
 
 

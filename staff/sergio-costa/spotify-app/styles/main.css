@@ -1,10 +1,11 @@
 html {
-  background-color: black;
+  background-color: #131313;
 }
 
 #root {
   margin: 0;
   padding: 0;
+  background-color: #131313;
 }
 
 .header {
@@ -25,26 +26,38 @@ html {
 
 .search__bar {
   border-radius: 10px;
-  background-color: white;
   border: 0px solid;
   padding: 5px;
+  width: 10em;
+  transition: 0.5s;
+}
+.search__bar:focus {
+  width: 15em;
 }
 
 .container__artist {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 2em;
 }
 
 .artist__each {
   width: 10em;
-  margin: 1em;
+  margin: 0.5em;
+  padding: 0.5em;
   display: flex;
   flex-direction: column;
+}
+.artist__each:hover {
+  cursor: pointer;
+  background-color: black;
+  border-radius: 20px;
 }
 
 .artist__name {
   text-align: center;
+  color: white;
 }
 
 .artist__img {
@@ -64,25 +77,38 @@ html {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 100px;
 }
 
 .album {
-  width: 30em;
+  width: 20em;
   display: flex;
   justify-content: center;
   flex-direction: column;
   margin: 2em;
 }
+.album:hover {
+  cursor: pointer;
+}
 .album__title {
   text-align: center;
+  color: white;
 }
 .album__image {
   align-self: center;
+  width: 15em;
+}
+.album__button {
+  background-color: #1db954;
+  border: 0px solid;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .track__list {
   display: flex;
   flex-direction: column;
+  margin-bottom: 100px;
 }
 
 .track__item {
@@ -94,6 +120,32 @@ html {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: white;
+}
+
+.track__item:hover {
+  background-color: #232323;
+  cursor: pointer;
+}
+
+.tracks__button {
+  position: fixed;
+  top: 0;
+  width: 20px;
+  height: 30px;
+  margin-left: 20px;
+  margin-top: 10px;
+  transition-duration: 0.2s;
+}
+
+.tracks__button:hover {
+  width: 30px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.resultTracks {
+  margin-top: 20px;
 }
 
 .resultTracks__title {
@@ -101,13 +153,14 @@ html {
 }
 
 .uniqueTrack {
-  background-color: lightgrey;
+  background-color: #232323;
   position: fixed;
   bottom: 0;
   width: 100%;
   display: flex;
   justify-content: space-around;
-  padding: 3em;
+  padding: 0.5em;
+  color: white;
 }
 
 .uniqueTrack-text {
