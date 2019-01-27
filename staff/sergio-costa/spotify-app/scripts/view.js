@@ -185,23 +185,23 @@ class UniqueTrackPanel extends Panel{
 class LoginPanel extends Panel {
     constructor() {
         super($(`<section class="login container">
-    <h2>Login</h2>
-    <form class="login__form" >
-        <div class="row">
-            <div class="col text-center">
-                <label for="email">E-mail:</label>
-                <input type="email" name="email" placeholder="email" required>
-            </div>
-            <div class="col">
-                <label for="password">Password:</label>
-                <input type="password" name="password" placeholder="password" required>
-            </div>
-            <div class="col">
-                <button type="submit">Login</button>
-            </div>
-            </div>
-    </form>
-</section>`));
+        <h2>Login</h2>
+        <form class="login__form" >
+            <div class="row">
+                <div class="col text-center">
+                    <label for="email">E-mail:</label>
+                    <input type="email" name="email" placeholder="email" required>
+                </div>
+                <div class="col">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" placeholder="password" required>
+                </div>
+                <div class="col">
+                    <button type="submit">Login</button>
+                </div>
+                </div>
+        </form>
+    </section>`));
 
         this.__$form__ = this.$container.find('form');
 
