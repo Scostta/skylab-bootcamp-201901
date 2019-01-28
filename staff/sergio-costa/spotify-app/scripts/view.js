@@ -28,7 +28,7 @@ class SearchPanel extends Panel {
     set onSearch(callback){
         this.__$form__.on('submit', event =>{
             event.preventDefault()
-
+            
             const query = this.__$query__.val()
 
             callback(query)
@@ -172,7 +172,7 @@ class UniqueTrackPanel extends Panel{
     set uniqueTrack({id, name, preview_url}){
 
             const $item = $(`<h5  data-id = ${id} class="uniqueTrack-text">${name}</h5>
-        <audio src=${preview_url} controls></audio>`)
+        <audio src=${preview_url} controls autoplay></audio>`)
     
             this.$container.append($item)
      }
