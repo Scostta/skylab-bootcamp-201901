@@ -125,7 +125,7 @@ class TracksPanel extends Panel{
     constructor(){
         super($(`<section class="resultTracks">
         <h2>Tracks</h2>
-        <img  class="tracks__button" src="back.png">
+        <img  class="tracks__button" src="images/back.png">
         <ul class="track__list"></ul>
 </section>`))
 
@@ -137,7 +137,7 @@ class TracksPanel extends Panel{
     set tracks(tracks){
         tracks.forEach(({id, track_number,name}) => {
 
-            const $item = $(`<li class="track__item" data-id=${id}>${track_number} ${name}<img src="playbtn.png" width="40px" height="40px"></li>`)
+            const $item = $(`<li class="track__item" data-id=${id}>${track_number} ${name}<img src="images/playbtn.png" width="40px" height="40px"></li>`)
 
             this.__$list__.append($item)
 
@@ -251,10 +251,10 @@ class LoginPanel extends Panel {
 class WelcomePanel extends Panel{
     constructor(){
         super($(`<section class="welcomePanel">
-        <img class="welcomePanel__img" src="person.png">
+        <img class="welcomePanel__img" src="images/person.png">
         <p class="welcomePanel__text">Sergio Costa</p>
         <div class="dropdown">
-    <img src="moreinfo.png" class="welcomePanel__imgInfo dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"">
+    <img src="images/moreinfo.png" class="welcomePanel__imgInfo dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"">
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     <a class="dropdown-item" href="#">Logout</a>
   </div>
