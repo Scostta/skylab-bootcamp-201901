@@ -1,4 +1,4 @@
-spotifyApi.token = "BQC87a3PKtZBygDfi_0w0L6pnI5bTmyP56amMe9C057hVfUBXGWT0xIv-CuwqtG9JL9Ldg4AuhtXajg83-A1hK2iUZG1qJB9K3Rh3q4KQsbilHr4gGtLgQwt2VnXnCvt-nGi4KhoirfpkPM4"
+spotifyApi.token = "BQAvtQP0t7OzbrIfUBolJUIc-vpVzFXftHvQtMINuhHAY_WLDekGdWda66a5JVe05IELeMvrHSxfju2lEesFy7fH0sBtALQrNfeEGDe5U2baEVG3yi18zMFiMcOg5omFSXh1OvONGigurhoB"
 
 //#region Login
 class Login extends React.Component {
@@ -28,14 +28,24 @@ class Login extends React.Component {
 
         const { hanldeGoToRegister, handleFormSubmit, handleEmailInput, handlePasswrodInput, props: { feedback } } = this
 
-        return <section className="login">
-            <h2>Login</h2>
-            <form onSubmit={handleFormSubmit}>
-                <input type="email" name="email" placeholder="email" onChange={handleEmailInput} />
-                <input type="password" name="password" placeholder="password" onChange={handlePasswrodInput} />
-                <button>Login</button>
+        return <section className="login container">
+            <h2 className="text-center mb-5">Login</h2>
+            <form className="login__form" onSubmit={handleFormSubmit}>
+                <div className="row">
+                    <div className="col text-center">
+                        <label for="email">E-mail:</label>
+                        <input className="form-control" type="email" name="email" placeholder="email" onChange={handleEmailInput} />
+                    </div>
+                    <div className="col text-center">
+                        <label for="password">Password:</label>
+                        <input className="form-control" type="password" name="password" placeholder="password" onChange={handlePasswrodInput} />
+                    </div>
+                </div>
+                <div className="col text-center">
+                    <button className="btn btn-primary mt-5">Login</button>
+                </div>
             </form>
-            <button onClick={hanldeGoToRegister}>Go To Register</button>
+            <button className="btn btn-secondary" onClick={hanldeGoToRegister}>Go To Register</button>
             {feedback && <Feedback message={feedback} />}
         </section>
     }
@@ -71,17 +81,44 @@ class Register extends React.Component {
 
         const { handleGoToLogin, handleInput, handleFormSubmit, props: { feedback } } = this
 
-        return <section>
-            <h2>Register</h2>
-            <form onSubmit={handleFormSubmit}>
-                <input type="text" name="name" placeholder="name" onChange={handleInput} />
-                <input type="text" name="surname" placeholder="surname" onChange={handleInput} />
-                <input type="email" name="email" placeholder="email" onChange={handleInput} />
-                <input type="password" name="password" placeholder="password" onChange={handleInput} />
-                <input type="password" name="passwordConfirm" placeholder="passwordConfirm" onChange={handleInput} />
-                <button>Register</button>
+        return <section className="register container">
+            <h2 className="text-center mb-5">Register</h2>
+            <form className="register__form" onSubmit={handleFormSubmit}>
+                <div className="row">
+                    <div className="col mb-3">
+                        <label font-weight-bold for="name">Name:</label>
+                        <input className="form-control" type="text" name="name" placeholder="name" onChange={handleInput} />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col mb-3">
+                        <label font-weight-bold for="surname">Surname:</label>
+                        <input className="form-control" type="text" name="surname" placeholder="surname" onChange={handleInput} />        
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col mb-3">
+                        <label font-weight-bold for="email">E-mail:</label>
+                        <input className="form-control" type="email" name="email" placeholder="email" onChange={handleInput} />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col mb-3">
+                        <label font-weight-bold for="password">Password:</label>
+                        <input className="form-control" type="password" name="password" placeholder="password" onChange={handleInput} />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col mb-3">
+                        <label font-weight-bold for="password">Confirm Password:</label>
+                        <input className="form-control" type="password" name="passwordConfirm" placeholder="passwordConfirm" onChange={handleInput} />             
+                    </div>
+                </div>
+                <div className="col text-center">
+                    <button className="btn btn-primary mt-3">Register</button>
+                </div>
             </form>
-            <button onClick={handleGoToLogin}>Go To Login</button>
+            <button className="btn btn-secondary" onClick={handleGoToLogin}>Go To Login</button>
             {feedback && <Feedback message={feedback} />}
         </section>
     }
@@ -109,9 +146,9 @@ class Search extends React.Component {
 
         const { handleSearchInput, handleFormSubmit, props: { feedback } } = this
 
-        return <section>
+        return <section className="header__search">
             <form onSubmit={handleFormSubmit}>
-                <input type="text" name="query" placeholder="search an artist..." onChange={handleSearchInput} />
+                <input className="search__bar" type="text" name="query" placeholder="search an artist..." onChange={handleSearchInput} />
                 <button>Search</button>
             </form>
             {feedback && <Feedback message={feedback} />}
@@ -134,13 +171,13 @@ class Artists extends React.Component {
     render() {
         const { props: { artistList }, onArtistSelected } = this
 
-        return <section>
+        return <section class="results">
             <h3>Artists</h3>
-            <div>
+            <div className="container__artist">
                 {artistList.map(({ id, images, name }) => {
-                return<div key={id} id-data={id}>
-                        <img src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} onClick={() => onArtistSelected(id)} />
-                        <h4>{name}</h4>
+                return<div className="artist__each" key={id} id-data={id}  onClick={() => onArtistSelected(id)}>
+                        <img className="artist__img bd-placeholder-img rounded-circle" width="100px" src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} />
+                        <h4 className="artist__name">{name}</h4>
                     </div>
                 })}
             </div>
@@ -164,13 +201,13 @@ class Albums extends React.Component {
     render(){
         const {props: {albumsList}, onAlbumSelected} = this
         
-        return <section>
-            <div>
+        return <section className="resultsAlbum">
+            <div className="container__album">
                 {albumsList.map(({id, name, images}) => {
-                    return <div key={id}>
-                        <img src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} onClick={() => onAlbumSelected(id)}/>
-                        <h4>{name}</h4>
-                        <button>Go To Album</button>
+                    return <div className="album" key={id}>
+                        <img className="album__image" src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} onClick={() => onAlbumSelected(id)}/>
+                        <h4 className="album__title">{name}</h4>
+                        <button className="album__button"><strong>Go To Album</strong></button>
                     </div>
                 })}
             </div>
@@ -194,12 +231,12 @@ class Tracks extends React.Component {
 
         const{props:{trackList}, onTrackSelected} = this
 
-        return <section>
+        return <section className="resultTracks">
             <h2>Tracks</h2>
-            <img src="images/back.png" />
-            <ul>
+            <img className="tracks__button" src="images/back.png" />
+            <ul className="track__list">
                 {trackList.map(({id, track_number, name}) => {
-                    return <li key={id} data-id={id}>{track_number} {name}<img src="images/playbtn.png" onClick={()=>onTrackSelected(id)}/></li>
+                    return <li className="track__item" key={id} data-id={id}>{track_number} {name}<img src="images/playbtn.png" width="40px" height="40px" onClick={()=>onTrackSelected(id)}/></li>
                 })}
             </ul>
         </section>
@@ -217,8 +254,8 @@ class Track extends React.Component {
         
         const{props:{track:{id, preview_url, name}}}=this
 
-        return <section>
-            <h5 data-id={id}>{name}</h5>
+        return <section className="uniqueTrack">
+            <h5 className="uniqueTrack-text" data-id={id}>{name}</h5>
             <audio src={preview_url} controls autoPlay></audio>
         </section>
     }
@@ -229,7 +266,7 @@ class Track extends React.Component {
 
 //#region FeedBack
 function Feedback({ message }) {
-    return <section>{message}</section>
+    return <section className="error alert alert-danger" role="alert">{message}</section>
 }
 //#endregion
 
@@ -314,7 +351,7 @@ class App extends React.Component {
             logic.retrieveTracks(id, (error, trackList) => {
                 if(error) console.log(error)
                 else{
-                    this.setState({ trackList, albumsVisible: false, tracksVisible: true })
+                    this.setState({ trackList, albumsVisible: false, artistsVisible: false ,tracksVisible: true })
                     console.log(trackList)
                 }
             })

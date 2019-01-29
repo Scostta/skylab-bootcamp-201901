@@ -1,0 +1,189 @@
+html
+    background-color: #131313
+    
+#root
+    margin: 0
+    padding: 0
+    background-color: #131313
+    
+.header
+    background-color: #232323
+    display: flex
+    justify-content: space-around
+    position: fixed
+    top: 0
+    width: 100%
+
+
+    &__text
+        color: white
+
+    &__search
+        display: flex
+        align-items: center
+
+.search__bar
+    border-radius: 10px
+    border: 0px solid
+    padding: 5px
+    width: 10em
+    transition: 0.5s
+
+    &:focus
+        width: 15em
+
+.container__artist
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    margin-top: 2em
+
+.artist__each
+    width: 10em
+    margin: 0.5em
+    padding: 0.5em
+    display: flex
+    flex-direction: column
+
+    &:hover
+        cursor: pointer
+        background-color: black
+        border-radius: 20px
+
+.artist__name
+    text-align: center
+    color: white
+
+.artist__img
+    text-align: center
+    justify-self: center
+    align-self: center
+    
+    &__search
+        align-self: center 
+
+.d-block
+    height: 50em
+
+.container__album
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    margin-bottom: 100px
+
+.album
+    width: 20em
+    display: flex
+    justify-content: center
+    flex-direction: column
+    margin: 2em
+
+    &:hover
+        cursor: pointer
+
+    &__title
+        text-align: center
+        color: white
+
+    &__image
+        align-self: center
+        width: 15em
+
+    &__button
+        background-color: #1db954
+        border: 0px solid
+        border-radius: 5px
+        cursor: pointer
+
+.track__list
+    display: flex
+    flex-direction: column
+    margin-bottom: 100px
+
+
+.track__item
+    list-style-type: none
+    padding: 1em
+    border-top: 1px solid lightgrey
+    width: 60em
+    align-self: center
+    display: flex
+    justify-content: space-between
+    align-items: center
+    color: white
+
+.track__item:hover
+    background-color: #232323
+    cursor: pointer
+
+.tracks__button
+    position: fixed
+    top: 0
+    width: 20px
+    height: 30px
+    margin-left: 20px
+    margin-top: 10px
+    transition-duration: 0.2s
+
+.tracks__button:hover
+    width: 30px
+    height: 40px
+    cursor: pointer
+
+.resultTracks
+    margin-top: 20px
+
+.resultTracks__title
+    padding: 2em
+
+.uniqueTrack
+    background-color: #232323
+    position: fixed
+    bottom: 0
+    width: 100%
+    display: flex
+    justify-content: space-around
+    padding: 0.5em
+    color: white
+
+.uniqueTrack-text
+    align-self: center
+
+.login
+    margin-top: 200px
+    color: white
+
+.welcomePanel
+    color: white
+    position: fixed
+    top: 0
+    right:10px
+    margin-top: 0.4em
+    display: flex
+    margin-right: 2em
+
+    &__img
+        width: 40px
+        height: 40px
+
+    &__text
+        margin: 0.5em
+
+    &__imgInfo
+        width: 20px
+        height: 20px
+        transform: rotate(-90deg)
+        margin-top: 0.5em
+        transition-duration: 0.2s
+
+        &:hover
+            cursor: pointer
+            width: 25px
+            height: 25px
+
+.register
+    margin-top: 200px
+    color: white
+
+.error
+    display: none
