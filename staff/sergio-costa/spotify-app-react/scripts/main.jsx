@@ -237,13 +237,27 @@ function Feedback({ message }) {
 //#region APP 
 class App extends React.Component {
 
-    state = { loginFeedback: '', registerFeedback: '', searchFeedback: '', loginVisible: true, registerVisible: false, searchVisible: false, artistList: [], albumsList:[], trackList:[], track:null}
+    state = { loginFeedback: '', 
+    registerFeedback: '', 
+    searchFeedback: '', 
+    loginVisible: true, 
+    registerVisible: false, 
+    searchVisible: false, 
+    artistsVisible:false,
+    albumsVisible:false,
+    tracksVisible:false,
+    uniqueTrackVisible:false,
+    artistList: [], 
+    albumsList:[], 
+    trackList:[], 
+    track:null
+
+}
 
     handleLogin = (email, password) => {
         try {
             logic.login(email, password, (user) => {
                 this.setState({ loginVisible: false, searchVisible: true, loginFeedback: '' })
-                console.log(user)
             })
         } catch (err) {
             this.setState({ loginFeedback: err.message })
@@ -254,7 +268,7 @@ class App extends React.Component {
     handleRegister = (name, surname, email, password, passwordConfirm) => {
         try {
             logic.register(name, surname, email, password, passwordConfirm, () => {
-                this.setState({ loginVisible: true, registerFeedback: '' })
+                this.setState({ loginVisible: true, registerVisible:false, registerFeedback: '' })
             })
         } catch (err) {
             this.setState({ registerFeedback: err.message })
@@ -274,7 +288,7 @@ class App extends React.Component {
             logic.searchArtists(query, (error, artistList) => {
                 if (error) console.log(error)
                 else {
-                    this.setState({ artistList })
+                    this.setState({ artistList, artistsVisible: true })
                 }
             })
         } catch (err) {
@@ -287,8 +301,7 @@ class App extends React.Component {
             logic.retrieveAlbums(id, (error, albumsList) => {
                 if(error) console.log(error)
                 else {
-                    this.setState({ albumsList })
-                    console.log(albumsList)
+                    this.setState({ albumsList, albumsVisible: true })
                 }
             })
         } catch (err) {
@@ -301,7 +314,7 @@ class App extends React.Component {
             logic.retrieveTracks(id, (error, trackList) => {
                 if(error) console.log(error)
                 else{
-                    this.setState({ trackList })
+                    this.setState({ trackList, albumsVisible: false, tracksVisible: true })
                     console.log(trackList)
                 }
             })
@@ -315,7 +328,7 @@ class App extends React.Component {
             retrieveUniqueTrack(id, (error, track) => {
                 if(error) console.log(error)
                 else{
-                    this.setState({track})
+                    this.setState({track , uniqueTrackVisible: true})
                 }
             })
         } catch (err) {
@@ -325,17 +338,17 @@ class App extends React.Component {
 
     render() {
 
-        const { uniqueTrack,loadTracks, loadAlbums,handleSearch, handleResgisterToLogin, handleLoginToRegister, handleLogin, handleRegister, state: { searchFeedback, loginFeedback, registerFeedback, loginVisible, registerVisible, searchVisible, artistList, albumsList, trackList } } = this
+        const { uniqueTrack,loadTracks, loadAlbums,handleSearch, handleResgisterToLogin, handleLoginToRegister, handleLogin, handleRegister, state: { searchFeedback, loginFeedback, registerFeedback, loginVisible, registerVisible, searchVisible, artistsVisible, albumsVisible, tracksVisible, uniqueTrackVisible, artistList, albumsList, trackList } } = this
 
         return <section>
             <h1>Welcome</h1>
             {loginVisible && <Login onLogin={handleLogin} feedback={loginFeedback} onGoToRegister={handleLoginToRegister} />}
             {registerVisible && <Register onRegister={handleRegister} feedback={registerFeedback} onGoToLogin={handleResgisterToLogin} />}
             {searchVisible && <Search onSearch={handleSearch} feedback={searchFeedback} />}
-            <Artists artistList={artistList} onArtistSelect= {loadAlbums}/>
-            <Albums albumsList={albumsList} onAlbumSelect = {loadTracks}/>
-            <Tracks trackList={trackList} onTrackSelect={uniqueTrack}/>
-            <Track track></Track>
+            {artistsVisible && <Artists artistList={artistList} onArtistSelect= {loadAlbums}/>}
+            {albumsVisible && <Albums albumsList={albumsList} onAlbumSelect = {loadTracks}/>}
+            {tracksVisible && <Tracks trackList={trackList} onTrackSelect={uniqueTrack}/>}
+            {uniqueTrackVisible && <Track track></Track>}
         </section>
     }
 }
