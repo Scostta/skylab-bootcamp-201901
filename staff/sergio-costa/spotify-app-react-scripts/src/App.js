@@ -1,33 +1,46 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import logic from './logic'
+import Login from './components/Login'
 import HelloWorld from './components/HelloWorld'
 import FeedBack from './components/Feedback'
 
 class App extends Component {
+
+  state = {
+    loginVisible: true
+  }
+
+  handleLogin = (email, password) => {
+    try {
+        logic.login(email, password, (user) => {
+            this.setState({ loginVisible: false, searchVisible: true, feedback: '', username: user.name, usernameVisible: true, userEmail: user.email})
+        })
+    } catch (err) {
+        this.setState({ feedback: err.message })
+        console.log(err.message)
+    }
+
+}
+
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <HelloWorld name="Sergio"/>
-          <FeedBack message="default feedback"/>
-          <FeedBack message="warn feedback" level="warn"/>
-          <FeedBack message="alert feedback" level="alert"/>
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+
+    const{handleLogin, handleLoginToRegister, state: {loginVisible}} = this
+
+    return <section>
+    {/* <header className="header">
+    <h1 className="header__text">Spotify App</h1>
+    {searchVisible && <Search onSearch={handleSearch}/>}
+    </header>    */}
+    {loginVisible && <Login onLogin={handleLogin} onGoToRegister={handleLoginToRegister} />}
+    {/* {registerVisible && <Register onRegister={handleRegister} onGoToLogin={handleResgisterToLogin} />}
+    {artistsVisible && <Artists artistList={artistList} onArtistSelect= {loadAlbums}/>}
+    {albumsVisible && <Albums albumsList={albumsList} onAlbumSelect = {loadTracks}/>}
+    {tracksVisible && <Tracks trackList={trackList} onTrackSelect={uniqueTrack} onGoBack={handleOnGoBack}/>}
+    {uniqueTrackVisible && <Track track={track} onFav={handleOnFav} favState={favState}></Track>}
+    {usernameVisible && <User username = {username} onLogout={handleLogout}/>}
+    {!!feedback && <Feedback message={feedback} />} */}
+</section>
   }
 }
 
