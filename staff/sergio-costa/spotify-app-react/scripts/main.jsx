@@ -1,4 +1,4 @@
-spotifyApi.token = "BQAvtQP0t7OzbrIfUBolJUIc-vpVzFXftHvQtMINuhHAY_WLDekGdWda66a5JVe05IELeMvrHSxfju2lEesFy7fH0sBtALQrNfeEGDe5U2baEVG3yi18zMFiMcOg5omFSXh1OvONGigurhoB"
+spotifyApi.token = "BQAilzESGNOetSn_s1wei5ipC9E7_l5_EFriuQUhZ5N7Rq2JAsHd7pZXBgGc6Xkw5DrL_si4WI3NQUi1J5A70SwJgnLK7RD-9aKWEbk6MWr4Z6mLlL1TOuU89iBppJ5po1RzTAbVISSubild"
 
 //#region Login
 class Login extends React.Component {
@@ -26,7 +26,7 @@ class Login extends React.Component {
 
     render() {
 
-        const { hanldeGoToRegister, handleFormSubmit, handleEmailInput, handlePasswrodInput, props: { feedback } } = this
+        const { hanldeGoToRegister, handleFormSubmit, handleEmailInput, handlePasswrodInput} = this
 
         return <section className="login container">
             <h2 className="text-center mb-5">Login</h2>
@@ -46,7 +46,6 @@ class Login extends React.Component {
                 </div>
             </form>
             <button className="btn btn-secondary" onClick={hanldeGoToRegister}>Go To Register</button>
-            {feedback && <Feedback message={feedback} />}
         </section>
     }
 }
@@ -79,7 +78,7 @@ class Register extends React.Component {
 
     render() {
 
-        const { handleGoToLogin, handleInput, handleFormSubmit, props: { feedback } } = this
+        const { handleGoToLogin, handleInput, handleFormSubmit} = this
 
         return <section className="register container">
             <h2 className="text-center mb-5">Register</h2>
@@ -119,7 +118,6 @@ class Register extends React.Component {
                 </div>
             </form>
             <button className="btn btn-secondary" onClick={handleGoToLogin}>Go To Login</button>
-            {feedback && <Feedback message={feedback} />}
         </section>
     }
 }
@@ -144,14 +142,13 @@ class Search extends React.Component {
 
     render() {
 
-        const { handleSearchInput, handleFormSubmit, props: { feedback } } = this
+        const { handleSearchInput, handleFormSubmit} = this
 
         return <section className="header__search">
             <form onSubmit={handleFormSubmit}>
                 <input className="search__bar" type="text" name="query" placeholder="search an artist..." onChange={handleSearchInput} />
                 <button>Search</button>
             </form>
-            {feedback && <Feedback message={feedback} />}
         </section>
     }
 }
@@ -171,7 +168,7 @@ class Artists extends React.Component {
     render() {
         const { props: { artistList }, onArtistSelected } = this
 
-        return <section class="results">
+        return <section className="results">
             <h3>Artists</h3>
             <div className="container__artist">
                 {artistList.map(({ id, images, name }) => {
@@ -221,6 +218,12 @@ class Albums extends React.Component {
 //#region TrackList
 class Tracks extends React.Component {
 
+    handleGoBack = () => {
+        const { props: {onGoBack}} = this
+
+        onGoBack()
+    }
+
     onTrackSelected = id => {
         const {props: {onTrackSelect}} = this
 
@@ -229,14 +232,14 @@ class Tracks extends React.Component {
 
     render(){
 
-        const{props:{trackList}, onTrackSelected} = this
+        const{props:{trackList}, onTrackSelected, handleGoBack} = this
 
         return <section className="resultTracks">
             <h2>Tracks</h2>
-            <img className="tracks__button" src="images/back.png" />
+            <img className="tracks__button" src="images/back.png" onClick = {handleGoBack}/>
             <ul className="track__list">
                 {trackList.map(({id, track_number, name}) => {
-                    return <li className="track__item" key={id} data-id={id}>{track_number} {name}<img src="images/playbtn.png" width="40px" height="40px" onClick={()=>onTrackSelected(id)}/></li>
+                    return <li className="track__item" key={id} data-id={id} onClick={()=>onTrackSelected(id)}>{track_number} {name}<img src="images/playbtn.png" width="40px" height="40px"/></li>
                 })}
             </ul>
         </section>
@@ -257,6 +260,35 @@ class Track extends React.Component {
         return <section className="uniqueTrack">
             <h5 className="uniqueTrack-text" data-id={id}>{name}</h5>
             <audio src={preview_url} controls autoPlay></audio>
+            <i class="far fa-heart"></i>
+        </section>
+    }
+}
+
+//#endregion
+
+
+//#region User
+class User extends React.Component {
+
+    handleLogoutButton = () => {
+        const {props: {onLogout}} = this
+
+        onLogout()
+    }
+
+    render(){
+        const {props: {username}, handleLogoutButton} = this
+
+        return <section className="welcomePanel">
+        <img className="welcomePanel__img" src="images/person.png" />
+        <p className="welcomePanel__text">{username}</p>
+        <div className="dropdown">
+            <img src="images/moreinfo.png" className="welcomePanel__imgInfo dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a className="dropdown-item" href="#" onClick ={handleLogoutButton}>Logout</a>
+            </div>
+        </div>
         </section>
     }
 }
@@ -266,7 +298,7 @@ class Track extends React.Component {
 
 //#region FeedBack
 function Feedback({ message }) {
-    return <section className="error alert alert-danger" role="alert">{message}</section>
+    return <section className="error alert alert-danger" role="alert">{message} </section>
 }
 //#endregion
 
@@ -274,9 +306,7 @@ function Feedback({ message }) {
 //#region APP 
 class App extends React.Component {
 
-    state = { loginFeedback: '', 
-    registerFeedback: '', 
-    searchFeedback: '', 
+    state = {  
     loginVisible: true, 
     registerVisible: false, 
     searchVisible: false, 
@@ -284,20 +314,23 @@ class App extends React.Component {
     albumsVisible:false,
     tracksVisible:false,
     uniqueTrackVisible:false,
+    usernameVisible: false,
     artistList: [], 
     albumsList:[], 
     trackList:[], 
-    track:null
-
+    track:null,
+    username:'',
+    feedback: '',
 }
 
     handleLogin = (email, password) => {
         try {
             logic.login(email, password, (user) => {
-                this.setState({ loginVisible: false, searchVisible: true, loginFeedback: '' })
+                this.setState({ loginVisible: false, searchVisible: true, feedback: '', username: user.name, usernameVisible: true})
             })
         } catch (err) {
-            this.setState({ loginFeedback: err.message })
+            this.setState({ feedback: err.message })
+            console.log(err.message)
         }
 
     }
@@ -305,19 +338,23 @@ class App extends React.Component {
     handleRegister = (name, surname, email, password, passwordConfirm) => {
         try {
             logic.register(name, surname, email, password, passwordConfirm, () => {
-                this.setState({ loginVisible: true, registerVisible:false, registerFeedback: '' })
+                this.setState({ loginVisible: true, registerVisible:false, feedback: '' })
             })
         } catch (err) {
-            this.setState({ registerFeedback: err.message })
+            this.setState({ feedback: err.message })
         }
     }
 
+    handleLogout = () => {
+        this.setState({uniqueTrackVisible: false, tracksVisible: false, albumsVisible: false, artistsVisible:false, searchVisible:false, loginVisible: true, usernameVisible:false})
+    }
+
     handleLoginToRegister = () => {
-        this.setState({ loginVisible: false, registerVisible: true, loginFeedback: '' })
+        this.setState({ loginVisible: false, registerVisible: true, feedback: '' })
     }
 
     handleResgisterToLogin = () => {
-        this.setState({ registerVisible: false, loginVisible: true, registerFeedback: '' })
+        this.setState({ registerVisible: false, loginVisible: true, feedback: '' })
     }
 
     handleSearch = (query) => {
@@ -325,12 +362,16 @@ class App extends React.Component {
             logic.searchArtists(query, (error, artistList) => {
                 if (error) console.log(error)
                 else {
-                    this.setState({ artistList, artistsVisible: true })
+                    this.setState({ artistList, artistsVisible: true, feedback:'' })
                 }
             })
         } catch (err) {
-            this.setState({ searchFeedback: err.message })
+            this.setState({ feedback: err.message })
         }
+    }
+
+    handleOnGoBack = () => {
+        this.setState({tracksVisible: false, albumsVisible: true, artistsVisible:true})
     }
 
     loadAlbums = id => {
@@ -352,7 +393,6 @@ class App extends React.Component {
                 if(error) console.log(error)
                 else{
                     this.setState({ trackList, albumsVisible: false, artistsVisible: false ,tracksVisible: true })
-                    console.log(trackList)
                 }
             })
         } catch (err) {
@@ -362,10 +402,11 @@ class App extends React.Component {
 
     uniqueTrack = id => {
         try {
-            retrieveUniqueTrack(id, (error, track) => {
+            logic.retrieveUniqueTrack(id, (error, track) => {
                 if(error) console.log(error)
                 else{
                     this.setState({track , uniqueTrackVisible: true})
+                    console.log(track)
                 }
             })
         } catch (err) {
@@ -375,17 +416,21 @@ class App extends React.Component {
 
     render() {
 
-        const { uniqueTrack,loadTracks, loadAlbums,handleSearch, handleResgisterToLogin, handleLoginToRegister, handleLogin, handleRegister, state: { searchFeedback, loginFeedback, registerFeedback, loginVisible, registerVisible, searchVisible, artistsVisible, albumsVisible, tracksVisible, uniqueTrackVisible, artistList, albumsList, trackList } } = this
+        const { handleOnGoBack, uniqueTrack,loadTracks, loadAlbums,handleSearch, handleResgisterToLogin, handleLoginToRegister, handleLogin, handleRegister, handleLogout, state: { feedback, loginVisible, registerVisible, searchVisible, artistsVisible, albumsVisible, tracksVisible, uniqueTrackVisible, usernameVisible, artistList, albumsList, trackList, track, username } } = this
 
         return <section>
-            <h1>Welcome</h1>
-            {loginVisible && <Login onLogin={handleLogin} feedback={loginFeedback} onGoToRegister={handleLoginToRegister} />}
-            {registerVisible && <Register onRegister={handleRegister} feedback={registerFeedback} onGoToLogin={handleResgisterToLogin} />}
-            {searchVisible && <Search onSearch={handleSearch} feedback={searchFeedback} />}
+            <header className="header">
+            <h1 className="header__text">Spotify App</h1>
+            {searchVisible && <Search onSearch={handleSearch}/>}
+            </header>   
+            {loginVisible && <Login onLogin={handleLogin} onGoToRegister={handleLoginToRegister} />}
+            {registerVisible && <Register onRegister={handleRegister} onGoToLogin={handleResgisterToLogin} />}
             {artistsVisible && <Artists artistList={artistList} onArtistSelect= {loadAlbums}/>}
             {albumsVisible && <Albums albumsList={albumsList} onAlbumSelect = {loadTracks}/>}
-            {tracksVisible && <Tracks trackList={trackList} onTrackSelect={uniqueTrack}/>}
-            {uniqueTrackVisible && <Track track></Track>}
+            {tracksVisible && <Tracks trackList={trackList} onTrackSelect={uniqueTrack} onGoBack={handleOnGoBack}/>}
+            {uniqueTrackVisible && <Track track={track}></Track>}
+            {usernameVisible && <User username = {username} onLogout={handleLogout}/>}
+            {!!feedback && <Feedback message={feedback} />}
         </section>
     }
 }

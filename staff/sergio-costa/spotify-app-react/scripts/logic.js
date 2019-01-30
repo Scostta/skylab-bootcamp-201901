@@ -108,5 +108,20 @@ logic = {
         if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
         spotifyApi.retrieveUniqueTrack(tracksId, callback)
+    },
+
+    toogleFavs(id, email, callback){
+
+        var user = users.find(function(user){
+            return user.email === email
+        })
+
+        if(user.favorites.id) console.log(user.favorites.id)
+        else{
+            user.push({favorites: id})
+        }
+
+        callback();
     }
+
 }
