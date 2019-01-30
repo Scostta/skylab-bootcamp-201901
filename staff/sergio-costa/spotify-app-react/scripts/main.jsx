@@ -1,4 +1,4 @@
-spotifyApi.token = "BQAilzESGNOetSn_s1wei5ipC9E7_l5_EFriuQUhZ5N7Rq2JAsHd7pZXBgGc6Xkw5DrL_si4WI3NQUi1J5A70SwJgnLK7RD-9aKWEbk6MWr4Z6mLlL1TOuU89iBppJ5po1RzTAbVISSubild"
+spotifyApi.token = "BQDoaJFQOU4U3uNC-BwFHi1xfbPL7bY2xd-6KJTBdcSHfJKKYDhXhuf59vGdSCKzc6K-s5sYdurESRpMtJF5cZr43qs-qWN-wYhK5x-b9BfLckK90yPP3xGZn0poy6XGC-tuN_AZb0lUFIKx"
 
 //#region Login
 class Login extends React.Component {
@@ -252,15 +252,21 @@ class Tracks extends React.Component {
 //#region Track
 class Track extends React.Component {
 
-    
+    handleFav = id =>{
+
+        const{props: {onFav}} = this
+
+        onFav(id)
+    }
+
     render(){
         
-        const{props:{track:{id, preview_url, name}}}=this
+        const{handleFav ,props:{track:{id, preview_url, name}, favState}}=this
 
         return <section className="uniqueTrack">
             <h5 className="uniqueTrack-text" data-id={id}>{name}</h5>
             <audio src={preview_url} controls autoPlay></audio>
-            <i class="far fa-heart"></i>
+            <i className={`${favState ? `far fa-heart`: `far fa-heart red`}`} onClick={()=>handleFav(id)}></i>
         </section>
     }
 }
@@ -321,12 +327,14 @@ class App extends React.Component {
     track:null,
     username:'',
     feedback: '',
+    userEmail:'',
+    favState: false
 }
 
     handleLogin = (email, password) => {
         try {
             logic.login(email, password, (user) => {
-                this.setState({ loginVisible: false, searchVisible: true, feedback: '', username: user.name, usernameVisible: true})
+                this.setState({ loginVisible: false, searchVisible: true, feedback: '', username: user.name, usernameVisible: true, userEmail: user.email})
             })
         } catch (err) {
             this.setState({ feedback: err.message })
@@ -406,7 +414,6 @@ class App extends React.Component {
                 if(error) console.log(error)
                 else{
                     this.setState({track , uniqueTrackVisible: true})
-                    console.log(track)
                 }
             })
         } catch (err) {
@@ -414,9 +421,19 @@ class App extends React.Component {
         }
     }
 
+    handleOnFav = id => {
+        try {
+            logic.toogleFavs(id, this.state.userEmail, (favState)=> {
+                this.setState({favState})
+            })
+        } catch (err) {
+            
+        }
+    }
+
     render() {
 
-        const { handleOnGoBack, uniqueTrack,loadTracks, loadAlbums,handleSearch, handleResgisterToLogin, handleLoginToRegister, handleLogin, handleRegister, handleLogout, state: { feedback, loginVisible, registerVisible, searchVisible, artistsVisible, albumsVisible, tracksVisible, uniqueTrackVisible, usernameVisible, artistList, albumsList, trackList, track, username } } = this
+        const { handleOnFav,handleOnGoBack, uniqueTrack,loadTracks, loadAlbums,handleSearch, handleResgisterToLogin, handleLoginToRegister, handleLogin, handleRegister, handleLogout, state: { feedback, loginVisible, registerVisible, searchVisible, artistsVisible, albumsVisible, tracksVisible, uniqueTrackVisible, usernameVisible, artistList, albumsList, trackList, track, username, favState } } = this
 
         return <section>
             <header className="header">
@@ -428,7 +445,7 @@ class App extends React.Component {
             {artistsVisible && <Artists artistList={artistList} onArtistSelect= {loadAlbums}/>}
             {albumsVisible && <Albums albumsList={albumsList} onAlbumSelect = {loadTracks}/>}
             {tracksVisible && <Tracks trackList={trackList} onTrackSelect={uniqueTrack} onGoBack={handleOnGoBack}/>}
-            {uniqueTrackVisible && <Track track={track}></Track>}
+            {uniqueTrackVisible && <Track track={track} onFav={handleOnFav} favState={favState}></Track>}
             {usernameVisible && <User username = {username} onLogout={handleLogout}/>}
             {!!feedback && <Feedback message={feedback} />}
         </section>
