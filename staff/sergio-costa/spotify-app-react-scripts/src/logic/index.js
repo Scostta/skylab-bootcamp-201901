@@ -1,8 +1,11 @@
-import users from './data'
-import spotifyApi from './spotify-api-1.0.0'
+'use strict'
 
-var logic = {
-    login(email, password, callback) {
+import users from '../data'
+import spotifyApi from '../spotify-api'
+
+const logic = {
+
+    login(email, password) {
 
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
 
@@ -12,9 +15,7 @@ var logic = {
 
         if (!password.trim().length) throw Error('password is empty')
 
-        if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
-
-        var user = users.find(function (user) {
+        const user = users.find(function (user) {
             return user.email === email
         })
 
@@ -28,7 +29,7 @@ var logic = {
             email: user.email
         };
 
-        callback(loggedInUser);
+        return loggedInUser;
     },
 
     register: function (name, surname, email, password, passwordConfirmation, callback) {
@@ -68,9 +69,9 @@ var logic = {
             email: email,
             password: password,
             favorites: []
-        });
+        })
 
-        callback();
+        callback()
     },
 
     searchArtists(query, callback) {
