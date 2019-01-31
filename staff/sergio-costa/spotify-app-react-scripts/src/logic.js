@@ -1,7 +1,7 @@
-import logic from './logic'
-import users from './logic'
+import users from './data'
+import spotifyApi from './spotify-api-1.0.0'
 
-logic = {
+var logic = {
     login(email, password, callback) {
 
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)

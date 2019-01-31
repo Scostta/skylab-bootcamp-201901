@@ -12,3 +12,5 @@ var users = [
 ];
 
 //#endregion
+
+export default users
