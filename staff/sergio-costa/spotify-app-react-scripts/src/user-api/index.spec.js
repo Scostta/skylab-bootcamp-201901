@@ -3,7 +3,10 @@
 import userApi from '.'
 
 describe('user api', () => {
-    const username = `sergio-${Math.random()}`
+    // const username = `sergio-${Math.random()}`
+    // const password = '123'
+
+    const username = 'costa'
     const password = '123'
 
     describe('register', () => {
@@ -103,9 +106,10 @@ describe('user api', () => {
     describe('update', () => {
 
         it('should add new info', () => 
+        
             userApi.auth(username, password)
                 .then(data => {
-                    return userApi.update(data.id, data.token, 'surname: costa')
+                    return userApi.update(data.id, data.token, 'aa: bb')
                         .then(user => {
                             expect(user.surname).toBe('costa')
                         })
@@ -113,23 +117,26 @@ describe('user api', () => {
         
         )
 
-        it('should change the username', () => 
-        userApi.auth(username, password)
-                .then(data=> {
-                    return userApi.update(data.id, data.token, 'username: hello')
-                        .then(user => {
-                            expect(user.username).toBe('hello')
-                        })
-                })
-        )
+        // it('should change the username', () => 
+        // userApi.auth(username, password)
+        //         .then(data=> {
+        //             return userApi.update(data.id, data.token, 'username: hello')
+        //                 .then(user => {
+        //                     expect(user.username).toBe('hello')
+        //                 })
+        //         })
+        // )
     })
 
-    describe('remove', () => 
-    userApi.auth(username, password)
-        .then(data => {
-            return userApi.remove(data.id, data.token, username, password)
-                .then()
-        })
+    // describe('remove', () => 
+    // userApi.auth(username, password)
+    //     .then(data => {
+    //         return userApi.remove(data.id, data.token, username, password)
+    //             .then(data => {
+    //                 expect(username).toBeUndefined()
+    //                 expect(data.id).toBeUndefined()
+    //             })
+    //     })
     
-    )
+    // )
 })

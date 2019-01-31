@@ -90,25 +90,25 @@ const userApi = {
             })
     },
 
-    remove(id, token, username, password){
-        return fetch(`https://skylabcoders.herokuapp.com/api/user/${id}`, {
-            method:'DEL',
-            headers: {
-                authorization: `Bearer ${token}`,
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({username, password})
-        })
-            .then(response => response.json())
-            .then(response => {
-                const {status, data} = response
+    // remove(id, token, username, password){
+    //     return fetch(`https://skylabcoders.herokuapp.com/api/user/${id}`, {
+    //         method:'DEL',
+    //         headers: {
+    //             authorization: `Bearer ${token}`,
+    //             'content-type': 'application/json'
+    //         },
+    //         body: JSON.stringify({username, password})
+    //     })
+    //         .then(response => response.json())
+    //         .then(response => {
+    //             const {status, data} = response
 
-                if(status === 'OK') return data
-                else{
-                    throw Error(response.error)
-                }
-            })
-    }
+    //             if(status === 'OK') return data
+    //             else{
+    //                 throw Error(response.error)
+    //             }
+    //         })
+    // }
 }
 
 export default userApi
