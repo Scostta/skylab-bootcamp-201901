@@ -5,7 +5,7 @@ import spotifyApi from '../spotify-api'
 
 const logic = {
 
-    login(email, password) {
+    login(email, password, callback) {
 
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
 
@@ -29,7 +29,7 @@ const logic = {
             email: user.email
         };
 
-        return loggedInUser;
+        callback(loggedInUser);
     },
 
     register: function (name, surname, email, password, passwordConfirmation, callback) {
