@@ -3,10 +3,7 @@
 import userApi from '.'
 
 describe('user api', () => {
-    // const username = `sergio-${Math.random()}`
-    // const password = '123'
-
-    const username = 'costa'
+    const username = `sergio-${Math.random()}`
     const password = '123'
 
     describe('register', () => {
@@ -109,34 +106,60 @@ describe('user api', () => {
         
             userApi.auth(username, password)
                 .then(data => {
-                    return userApi.update(data.id, data.token, 'aa: bb')
-                        .then(user => {
-                            expect(user.surname).toBe('costa')
-                        })
+                    return userApi.update(data.id, data.token, {surname: 'costa', age:21})
+                        .then(res => expect(res).toBeTruthy())
+                        .then(() => 
+                        userApi.retrieve(data.id, data.token)
+                            .then((info) => {
+                                expect(info.surname).toBe('costa')
+                                expect(info.age).toBe(21)
+                            })
+                        )
                 })
         
         )
 
-        // it('should change the username', () => 
-        // userApi.auth(username, password)
-        //         .then(data=> {
-        //             return userApi.update(data.id, data.token, 'username: hello')
-        //                 .then(user => {
-        //                     expect(user.username).toBe('hello')
-        //                 })
-        //         })
-        // )
+        it('should fail on invalid token', () => 
+                userApi.auth(username, password)
+                    .then(data => {
+                        return userApi.update(data.id, 'asd', {hola: 'adios'})
+                            .then(() => {
+                                throw Error('should not pass by here')
+                            })
+                            .catch(error => {
+                                expect(error).toBeDefined()
+                                expect(error.message).toBe(`invalid token`)
+                            })
+                    })
+        )
     })
 
-    // describe('remove', () => 
-    // userApi.auth(username, password)
-    //     .then(data => {
-    //         return userApi.remove(data.id, data.token, username, password)
-    //             .then(data => {
-    //                 expect(username).toBeUndefined()
-    //                 expect(data.id).toBeUndefined()
-    //             })
-    //     })
-    
-    // )
+    describe('remove', () => {
+
+        it('should remove the user', () =>
+            userApi.auth(username, password)
+                .then(data => {
+                    return userApi.remove(data.id, data.token, username, password)
+                    .then(res => expect(res).toBeTruthy())
+                        .then(() => 
+                            userApi.register(username, password)
+                                .then(id => expect(id).toBeDefined())
+                        )
+                })
+        )
+
+        it('should do not remove with incorrect id', () => 
+            userApi.auth(username, password)
+                .then(data => {
+                    return userApi.remove('asd', data.token, username, password)
+                        .then(() => {
+                            throw Error('should not pass by here')
+                        })
+                        .catch(error => {
+                            expect(error).toBeDefined();
+                            expect(error.message).toBe(`token id \"${data.id}\" does not match user \"asd\"`)
+                        })
+                })
+        )
+    })
 })

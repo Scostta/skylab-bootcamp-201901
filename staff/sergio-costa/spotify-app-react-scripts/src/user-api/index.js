@@ -83,32 +83,32 @@ const userApi = {
             .then(response => {
                 const{ data, status } = response
 
-                if(status === 'OK') return data
+                if(status === 'OK') return true
                 else{
                     throw Error(response.error)
                 }
             })
     },
 
-    // remove(id, token, username, password){
-    //     return fetch(`https://skylabcoders.herokuapp.com/api/user/${id}`, {
-    //         method:'DEL',
-    //         headers: {
-    //             authorization: `Bearer ${token}`,
-    //             'content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify({username, password})
-    //     })
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             const {status, data} = response
+    remove(id, token, username, password){
+        return fetch(`https://skylabcoders.herokuapp.com/api/user/${id}`, {
+            method:'DELETE',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({username, password})
+        })
+            .then(response => response.json())
+            .then(response => {
+                const {status} = response
 
-    //             if(status === 'OK') return data
-    //             else{
-    //                 throw Error(response.error)
-    //             }
-    //         })
-    // }
+                if(status === 'OK') return true
+                else{
+                    throw Error(response.error)
+                }
+            })
+    }
 }
 
 export default userApi
