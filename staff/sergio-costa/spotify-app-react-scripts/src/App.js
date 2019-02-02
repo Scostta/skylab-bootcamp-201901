@@ -38,23 +38,26 @@ class App extends Component {
     //#region App HANLDES
     handleLogin = (email, password) => {
         try {
-            logic.login(email, password, (user) => {
-                this.setState({ loginVisible: false, searchVisible: true, feedback: '', user: user, userEmail: user.email })
-            })
-        } catch (err) {
-            this.setState({ feedback: err.message })
-            console.log(err.message)
+            logic.login(email, password) 
+                .then(user => {
+                    this.setState({ loginVisible: false, searchVisible: true, feedback: '', user: user, userEmail: user.email })
+                })
+                .catch(({message}) => this.setState({ feedback: message }))
+        } catch ({message}) {
+            this.setState({ feedback: message })
         }
 
     }
 
     handleRegister = (name, surname, email, password, passwordConfirm) => {
         try {
-            logic.register(name, surname, email, password, passwordConfirm, () => {
-                this.setState({ loginVisible: true, registerVisible: false, feedback: '' })
-            })
-        } catch (err) {
-            this.setState({ feedback: err.message })
+            logic.register(name, surname, email, password, passwordConfirm)
+                .then(() => {
+                    this.setState({ loginVisible: true, registerVisible: false, feedback: '' })
+                })
+                .catch(({message}) => this.setState({ feedback: message }))
+        } catch ({message}) {
+            this.setState({ feedback: message })
         }
     }
 
@@ -72,14 +75,13 @@ class App extends Component {
 
     handleSearch = (query) => {
         try {
-            logic.searchArtists(query, (error, artistList) => {
-                if (error) console.log(error)
-                else {
+            logic.searchArtists(query)
+                .then(artistList => {
                     this.setState({ artistList, artistsVisible: true, feedback: '' })
-                }
-            })
-        } catch (err) {
-            this.setState({ feedback: err.message })
+                })
+                .catch(({message}) => this.setState({feedback: message}))
+        } catch ({message}) {
+            this.setState({ feedback: message })
         }
     }
 
@@ -89,12 +91,11 @@ class App extends Component {
 
     loadAlbums = id => {
         try {
-            logic.retrieveAlbums(id, (error, albumsList) => {
-                if (error) console.log(error)
-                else {
+            logic.retrieveAlbums(id)
+                .then(albumsList => {
                     this.setState({ albumsList, albumsVisible: true })
-                }
-            })
+                })
+                .catch(console.log('error'))
         } catch (err) {
             console.log('error')
         }
@@ -102,12 +103,11 @@ class App extends Component {
 
     loadTracks = id => {
         try {
-            logic.retrieveTracks(id, (error, trackList) => {
-                if (error) console.log(error)
-                else {
+            logic.retrieveTracks(id)
+                .then(trackList => {
                     this.setState({ trackList, albumsVisible: false, artistsVisible: false, tracksVisible: true })
-                }
-            })
+                })
+                .catch(console.log('error'))
         } catch (err) {
             console.log('error')
         }
@@ -115,12 +115,11 @@ class App extends Component {
 
     uniqueTrack = id => {
         try {
-            logic.retrieveUniqueTrack(id, (error, track) => {
-                if (error) console.log(error)
-                else {
+            logic.retrieveUniqueTrack(id)
+                .then(track => {
                     this.setState({ track, uniqueTrackVisible: true })
-                }
-            })
+                })
+                .catch(console.log('error'))
         } catch (err) {
             console.log('error')
         }
@@ -129,7 +128,6 @@ class App extends Component {
     handleOnFav = id => {
         try {
             logic.toogleFavs(id, this.state.userEmail, (favState) => {
-                debugger
                 this.setState({ favState })
             })
         } catch (err) {
